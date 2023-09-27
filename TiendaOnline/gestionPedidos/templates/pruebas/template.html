@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template</title>
+</head>
+<body>
+    {% include "./superior/navbar.html"%}
+    <h2>SALUDO </h2>
+    <p> ESTE ES EL PRIMER TEMPLATE</p>
+    <p> Accediendo al Contexto[nombreUsuario] : {{nombreUsuario.upper}} se uso metodo upper</p>
+    <p> Accediendo al Contexto[apellidoUsuario] : {{apellidoUsuario}}</p>
+    <p> Accediendo al Contexto[fecha_actual] : {{fecha_actual}}</p>
+    <p> Accediendo al Contexto[nombreArticulo] : {{nombreArticulo}} Contexto[precio] : {{precio}}</p>
+    <p> Accediendo al Contexto[categorias] : {{categorias.0}} </p>
+    <ul> Accediendo al Contexto[categorias] pero con For : 
+        {% for categoria in categorias %}
+        <li>{{categoria}}</li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>

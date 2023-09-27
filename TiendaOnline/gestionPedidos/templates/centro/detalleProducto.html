@@ -3,8 +3,23 @@
 {% block content %}
 <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam alias ea provident nobis quae temporibus molestias error veniam sed, quod impedit doloremque voluptatibus officia! Illum ex porro quas accusantium perferendis?</p>
 <p>{{fecha_actual}}</p>
+<h2>{{nombreArticulo}}</h2>
+<p>Estas buscando <strong>{{query}}</strong></p>
+{% if articulos %}
+    <p> Articulos encontrados: {{articulos|length}} cantidad </p>
+    <img src="https://definicion.de/wp-content/uploads/2009/06/producto.png" alt="imagen Producto">
+    <ul>
+        {% for articulo in articulos %}
+            <li>
+                {{articulo.nombre}}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <img src="https://kbimages.dreamhosters.com/images/Site_Not_Found_Dreambot.fw.png" alt="imagen Producto">
+    <p>Articulo no encontrados</p>
+{% endif %}
 
-<img src="https://definicion.de/wp-content/uploads/2009/06/producto.png" alt="imagen Producto">
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet id expedita debitis? Perferendis, repellendus sed. Commodi, deleniti aut sint enim esse quas pariatur consectetur molestias, tenetur blanditiis mollitia optio temporibus?</p>
 {% endblock %}

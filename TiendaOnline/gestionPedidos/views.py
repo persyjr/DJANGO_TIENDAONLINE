@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
+from gestionPedidos.models import Articulos
 from django.template import Template, Context, loader
+from django.core.mail import send_mail
+from django.conf import settings
+from gestionPedidos.forms import FormularioContacto
 # Create your views here.
-
+"""
 class Articulo(object):
         def __init__(self, nombreArticulo,precio):
             self.nombreArticulo=nombreArticulo
             self.precio = precio
-
+"""
 def prueba1(request): 
     # vista de prueba
     # Para cargar plantilla
@@ -20,7 +24,7 @@ def prueba1(request):
     Articulo1=Articulo('Sierra',5000)    
     categorias=['Maquinaria','insumos','tecnologia','software']
     fecha_actual=datetime.datetime.now()
-    docExterno=open('../TiendaOnline/gestionPedidos/templates/prueba.html')#abro documento
+    docExterno=open('../TiendaOnline/gestionPedidos/templates/pruebas/prueba.html')#abro documento
     plt =Template(docExterno.read())#leo documento y lo convierto en un objeto template
     docExterno.close() #cierro comunicacion para ahorrar recursos
     ctx=Context({'nombreUsuario':nombreUsuario,
@@ -44,7 +48,7 @@ def prueba2(request):
     Articulo1=Articulo('Sierra',5000)    
     categorias=['Maquinaria','insumos','tecnologia','software']
     fecha_actual=datetime.datetime.now()
-    docExterno=loader.get_template('template.html')
+    docExterno=loader.get_template('pruebas\\template.html')
     ctx={'nombreUsuario':nombreUsuario,
                  'apellidoUsuario':apellidoUsuario,
                  'fecha_actual':fecha_actual,
@@ -73,13 +77,28 @@ def prueba3(request):
                  'categorias':categorias,
                  } #creo objeto contexto
     
-    return render(request,'template.html',ctx)
+    return render(request,'pruebas\\template.html',ctx)
 
 
 def detalleProducto(request):
     print("detalleProducto(request)")
-    fecha={"fecha_actual":datetime.datetime.now()}
-    return render(request,'centro\detalleProducto.html',fecha)
+    fecha_actual={"fecha_actual":datetime.datetime.now()}
+
+    if request.GET["prd"]:
+        producto=request.GET["prd"]
+        articulos=Articulos.objects.filter(nombre__icontains=producto)
+        print(articulos)
+        return render(request,'centro\\detalleProducto.html',{"articulos":articulos,"query":producto,'fecha_actual':fecha_actual,'nombreArticulo':producto,})
+    else:
+        producto="no se ingreso articulo"
+    ctx={
+                 "articulos":articulos,
+                 "query":producto,
+                 'fecha_actual':fecha_actual,
+                 'nombreArticulo':producto,
+                 } #creo objeto contexto
+    return render(request,'centro\\detalleProducto.html',ctx)
+    
 
 def swipeProductos(request):
     print("detalleProducto(request)")
@@ -91,6 +110,28 @@ def despedida(request): # segunda vista
     print("despedida(request)")
     return HttpResponse("Hasta la vista Baby")
 
+def contacto(request):
+    """
+    if request.method=='POST':
+        subject=request.POST["Asunto"]
+        message=request.POST["Mensaje"] + request.POST["Email"]
+        email_from=settings.EMAIL_HOST_USER
+        recipient_list=["tallerapp2022@gmail.com"]#correo de recepcion de los mensajes
+        send_mail(subject,message,email_from,recipient_list)
+        return render(request,'centro\gracias.html')"""
+
+    if request.method=='POST':    
+        miFormulario=FormularioContacto(request.POST)
+        if miFormulario.is_valid():
+            infForm =miFormulario.cleaned_data #propiedad cleened data
+            send_mail(infForm['asunto'], infForm['mensaje'],infForm.get('email',''),['tallerapp2022@gmail.com'],)
+            return render(request,'centro\gracias.html')
+    else:
+        miFormulario=FormularioContacto()#construye formulario vacio
+        #return render(request,'centro\gracias.html')
+    
+    return render(request,"centro/formulario_contacto_generado.html",{"form":miFormulario})
+    
 def dameFecha(request): # tercera vista 
     print("dameFecha(request)")
     fecha_actual=datetime.datetime.now()

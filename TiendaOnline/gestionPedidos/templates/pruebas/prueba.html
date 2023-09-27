@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba</title>
+</head>
+<body>
+    <h2>TEMPLATE DE PRUEBA </h2>
+    <p> ESTE ES EL TEMPLATE DE PRUEBA</p>
+    <p> Accediendo al Contexto[nombreUsuario] : {{nombreUsuario.upper}} se uso metodo upper</p>
+    <p> Accediendo al Contexto[apellidoUsuario] : {{apellidoUsuario}}</p>
+    <p> Accediendo al Contexto[fecha_actual] : {{fecha_actual}}</p>
+    <p> Accediendo al Contexto[nombreArticulo] : {{nombreArticulo}} Contexto[precio] : {{precio}}</p>
+    <p> Accediendo al Contexto[categorias] : {{categorias.0}} </p>
+    <ul> Accediendo al Contexto[categorias] pero con For : 
+        {% for categoria in categorias %}
+        <li>{{categoria}}</li>
+        {% endfor %}
+    </ul>
+    <form action="/detalleProducto/" method="GET">
+        <input type="text" name="prd">
+        <input type="submit" value="Buscar">
+
+    </form>
+</body>
+</html>
