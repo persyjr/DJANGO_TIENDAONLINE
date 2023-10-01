@@ -24,7 +24,7 @@ def prueba1(request):
     Articulo1=Articulo('Sierra',5000)    
     categorias=['Maquinaria','insumos','tecnologia','software']
     fecha_actual=datetime.datetime.now()
-    docExterno=open('../TiendaOnline/gestionPedidos/templates/pruebas/prueba.html')#abro documento
+    docExterno=open('../TiendaOnline/gestionPedidos/templates/gestionPedidos/pruebas/prueba.html')#abro documento
     plt =Template(docExterno.read())#leo documento y lo convierto en un objeto template
     docExterno.close() #cierro comunicacion para ahorrar recursos
     ctx=Context({'nombreUsuario':nombreUsuario,
@@ -48,7 +48,7 @@ def prueba2(request):
     Articulo1=Articulo('Sierra',5000)    
     categorias=['Maquinaria','insumos','tecnologia','software']
     fecha_actual=datetime.datetime.now()
-    docExterno=loader.get_template('pruebas\\template.html')
+    docExterno=loader.get_template('gestionPedidos\\pruebas\\template.html')
     ctx={'nombreUsuario':nombreUsuario,
                  'apellidoUsuario':apellidoUsuario,
                  'fecha_actual':fecha_actual,
@@ -77,7 +77,7 @@ def prueba3(request):
                  'categorias':categorias,
                  } #creo objeto contexto
     
-    return render(request,'pruebas\\template.html',ctx)
+    return render(request,'gestionPedidos\\pruebas\\template.html',ctx)
 
 
 def detalleProducto(request):
@@ -88,7 +88,7 @@ def detalleProducto(request):
         producto=request.GET["prd"]
         articulos=Articulos.objects.filter(nombre__icontains=producto)
         print(articulos)
-        return render(request,'centro\\detalleProducto.html',{"articulos":articulos,"query":producto,'fecha_actual':fecha_actual,'nombreArticulo':producto,})
+        return render(request,'gestionPedidos\\centro\\detalleProducto.html',{"articulos":articulos,"query":producto,'fecha_actual':fecha_actual,'nombreArticulo':producto,})
     else:
         producto="no se ingreso articulo"
     ctx={
@@ -97,13 +97,13 @@ def detalleProducto(request):
                  'fecha_actual':fecha_actual,
                  'nombreArticulo':producto,
                  } #creo objeto contexto
-    return render(request,'centro\\detalleProducto.html',ctx)
+    return render(request,'gestionPedidos\\centro\\detalleProducto.html',ctx)
     
 
 def swipeProductos(request):
     print("detalleProducto(request)")
     fecha={"fecha_actual":datetime.datetime.now()}
-    return render(request,'centro\swipeProductos.html',fecha)
+    return render(request,'gestionPedidos\centro\swipeProductos.html',fecha)
 
 
 def despedida(request): # segunda vista 
@@ -118,19 +118,19 @@ def contacto(request):
         email_from=settings.EMAIL_HOST_USER
         recipient_list=["tallerapp2022@gmail.com"]#correo de recepcion de los mensajes
         send_mail(subject,message,email_from,recipient_list)
-        return render(request,'centro\gracias.html')"""
+        return render(request,'gestionPedidos\centro\gracias.html')"""
 
     if request.method=='POST':    
         miFormulario=FormularioContacto(request.POST)
         if miFormulario.is_valid():
             infForm =miFormulario.cleaned_data #propiedad cleened data
             send_mail(infForm['asunto'], infForm['mensaje'],infForm.get('email',''),['tallerapp2022@gmail.com'],)
-            return render(request,'centro\gracias.html')
+            return render(request,'gestionPedidos\centro\gracias.html')
     else:
         miFormulario=FormularioContacto()#construye formulario vacio
         #return render(request,'centro\gracias.html')
     
-    return render(request,"centro/formulario_contacto_generado.html",{"form":miFormulario})
+    return render(request,"gestionPedidos/centro/formulario_contacto_generado.html",{"form":miFormulario})
     
 def dameFecha(request): # tercera vista 
     print("dameFecha(request)")

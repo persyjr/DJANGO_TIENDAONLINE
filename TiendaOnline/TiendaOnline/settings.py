@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gestionPedidos', #aplicacion de pedidos de clientes
+    'villaRaquel', #aplicacion de pedidos de clientes
 ]
 
 MIDDLEWARE = [
@@ -55,7 +56,7 @@ ROOT_URLCONF = 'TiendaOnline.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['../TiendaOnline/gestionPedidos/templates'],
+        'DIRS': ['../TiendaOnline/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
