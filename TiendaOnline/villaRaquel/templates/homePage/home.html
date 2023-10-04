@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">  
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        
+        {% include "homePage/navbar.html"%}
+        {% block h2title %}HOME{% endblock %}
+        <section>
+            <img class="mySlides" src="https://loremflickr.com/500/150" style="width:100%">
+            <img class="mySlides" src="http://placekitten.com/500/150" style="width:100%">
+            <img class="mySlides" src="https://loremflickr.com/500/150" style="width:100%">
+        </section>
+        <article style="background-color: aqua;">
+            <h2 > nombre del sitio </h2>
+            <h3 style="background-color: rgb(194, 137, 186);"> Lorem ipsum dolor sit amet</h3>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt maxime molestiae, illo et odio sapiente dignissimo</p>
+        </article>
+        {% block content %}{% endblock %}
+        <script>
+            // Automatic Slideshow - change image every 3 seconds
+            var myIndex = 0;
+            carousel();
+
+            function carousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            myIndex++;
+            if (myIndex > x.length) {myIndex = 1}
+            x[myIndex-1].style.display = "block";
+            setTimeout(carousel, 3000);
+            }
+        </script>
+
+    </body>
+</html>

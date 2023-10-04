@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Este contenido no es comun  a todas las plantillas -->
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <!-- Este contenido no es comun  a todas las plantillas -->
     <div>{% include "superior/navbar.html"%}</div>
     
     
@@ -14,6 +16,7 @@
         <h3 style="background-color: rgb(194, 137, 186);"> Lorem ipsum dolor sit amet</h3>
         <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt maxime molestiae, illo et odio sapiente dignissimo</p>
     </article>
+    <!-- Este contenido no es comun  a todas las plantillas -->
     {% block content %} 
     {% endblock %}
     <article style="background-color: aqua;">

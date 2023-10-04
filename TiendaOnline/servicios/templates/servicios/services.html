@@ -1,0 +1,16 @@
+{% extends "villaRaquel/home/home.html"%}
+{% block h2title %}SERVICES{% endblock %} 
+{% load static %}
+{% block content %}
+    <p> Articulos encontrados: {{servicios|length}} cantidad </p>
+    
+    <ul>
+        {% for servicio in servicios %}
+            <li>
+                {{servicio.titulo}}
+                <img src="{{servicio.imagen.url}}" alt="">
+                <p>{{servicio.contenido}}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

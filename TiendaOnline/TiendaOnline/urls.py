@@ -21,5 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('gestionPedidos.urls')),#URLS gestionPedidos
     path('', include('villaRaquel.urls')),#URLS villaRaquel   
+    path('', include('servicios.urls')),#URLS servicios   
+    
 ]
 
+#path('', include('pruebas_wom.urls')),#URLS pruebas_wom   
+#path('', include('tallerApp.urls')),#URLS tallerApp  
