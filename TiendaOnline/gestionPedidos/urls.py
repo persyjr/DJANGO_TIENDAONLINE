@@ -23,6 +23,7 @@ urlpatterns = [
     path('contacto/', contacto),
     path('fecha/', dameFecha),
     path('edad/<int:edad>/<int:agno>/', calculaEdad),#aca importo un dato con el cual hago un calculo en mi funcion edad
+    path('homeGP/', views.homeGP, name='homeGP'),
 ]
 #path('detalleProducto/', detalleProducto),
 #path('swipeProductos/', swipeProductos),

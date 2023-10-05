@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'pruebas_wom', #aplicacion de pruebas_wom
     'villaRaquel', #aplicacion de pedidos de clientes
     'tallerApp', #aplicacion de tallerApp
+    'blog', #aplicacion de blog
     
 ]
 

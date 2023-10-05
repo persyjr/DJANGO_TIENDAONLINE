@@ -160,3 +160,6 @@ def calculaEdad(request,edad,agno): # cuarta vista
         </html>
         """ %(agno,edadFutura,edad)
     return HttpResponse(documento)
+
+def homeGP(request):
+    return render(request,"homePage/homePedidos.html")
