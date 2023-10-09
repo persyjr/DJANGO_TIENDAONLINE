@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LOGIN</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://bootswatch.com/5/cyborg/bootstrap.min.css" rel="stylesheet" >
+        <link rel="stylesheet" type="text/css" href="/static/index.css">
+    </head>
+    <body >
+        <div class="body0">
+            <div class="separator"></div>
+            <div class="body1" >            
+                <div class="post">                 
+                    <div class="header" >
+                        <div>
+                            <img class="logo" src="https://giffiles.alphacoders.com/212/212352.gif" style="width: 100px;" ><img/>
+                        </div>
+                        <div class="containernames">
+                            <h3 class="title"> LOG IN </h3>
+                            
+                        </div> 
+                        
+                    </div>
+                    
+                    <div >
+                        <img src="" ></img>
+                        
+                        <div>
+                            <div>
+                                <form id="userForm"class="card car-body text-white">
+                                    <label for="nombre">nombre</label>
+                                    <input type="text"
+                                    name="nombre" 
+                                    placeholder="nombre"
+                                    class="form-control mb-2"
+                                    required/>
+
+                                    <label for="email">email</label>
+                                    <input type="email"
+                                    name="email" 
+                                    placeholder="email" 
+                                    class="form-control mb-2"
+                                    />
+
+                                    <label for="tel">tel</label>
+                                    <input type="text"
+                                    name="tel" 
+                                    placeholder="tel"
+                                    class="form-control mb-2"
+                                    
+                                    />
+                                    
+                                    <label for="direccion">direccion</label>
+                                    <input type="text"
+                                    name="direccion" 
+                                    placeholder="direccion"
+                                    class="form-control mb-2"
+                                    
+                                    />
+
+                                    <button class="btn btn-primary">SAVE</button>
+                                </form>
+                                <ul id="userList" class="list-group">
+                                    <li class="list-group-item"> item</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>       
+            </div>
+            
+           
+        
+        </div>
+        <!--nuevo post-->
+        <script >
+            
+            const userForm= document.querySelector('#userForm')
+                
+                let users =[];
+                edditing= false;
+                let userId=0;
+
+                window.addEventListener('DOMContentLoaded', async ()=> {
+                    const userList=[0];
+                    const response =await fetch('/api/users/');
+                    const res = await response.json()
+                    users=res.data;/*data  es la clave asignada desde el back console.log(data.data)*/
+                    renderUser(users)
+                });
+                userForm.addEventListener('submit', async e => {
+                e.preventDefault()
+                
+                const nombre=userForm['nombre'].value
+                const direccion=userForm['direccion'].value
+                const email=userForm['email'].value
+                const tel=userForm['tel'].value
+                
+                if (!edditing){
+                    
+                    const response = await fetch('/api/users/',{
+                        method:'POST' ,  // or 'PUT'
+                        headers:{
+                            'content-Type':'application/json'
+                        },
+                        body: JSON.stringify({
+                            nombre,
+                            direccion,
+                            email,
+                            tel
+                        })
+                    })
+                    const data= await response.json();
+                    /*console.log(data)*/
+                    users.unshift(data);
+                }else{
+                    const response = await fetch(`/api/users/${userId}/`,{
+                        method:"PUT",
+                        headers:{
+                            'content-Type':'application/json'
+                        },
+                        body: JSON.stringify({
+                            nombre,
+                            direccion,
+                            email,
+                            tel
+                        }),
+                    });
+                    const res = await response.json();
+                    const updateUser = res.data
+                    users= users.map(user => user.id=== updateUser.id ? updateUser : user);       
+                    edditing=false
+                    userId=null
+                }
+                /*console.log(userList)*/
+                renderUser(users);
+                userForm.reset();
+
+            });
+
+            function renderUser(users) {
+                const userList=document.querySelector('#userList')
+                /*console.log(userList)*/
+                userList.innerHTML=''
+                users.forEach(user => {
+                    const userItem = document.createElement('li')
+                    userItem.classList='list-group-item my-2'
+                    userItem.innerHTML = `
+                        <header class="d-flex justify-content-around align-items-center">
+                            <h5 style="width:60%;">${user.nombre}</h5>
+                            
+                            <div  style="width:30%;">
+                                <p>${user.direccion}</p>
+                                <p>${user.tel}</p>
+                            </div>
+                            <div style="width:20%;">
+                                <button class="btn btnDelete btn-danger btn-sm" style="width:50%;"><i class="fa fa-close" style="width:36px;"></i></button>
+                                <button class="btn btnEdit btn-primary btn-sm" style="width:50%;"><i class="fa fa-edit" style="width:36px;"></i></button>
+                            </div>
+                        <header>
+                        
+                    `
+                    const btnDelete = userItem.querySelector('.btnDelete')
+                    btnDelete.addEventListener('click', async ()=> {
+                    const response = await fetch(`/api/users/${user.id}/`,{
+                            method:"DELETE"
+                        })
+                        const res = await response.json()
+                        data=res.data
+                        users=users.filter(user => user.id != data)
+                        renderUser(users)
+                    })
+                    
+                    const btnEdit = userItem.querySelector('.btnEdit')
+                    btnEdit.addEventListener('click',async e=>{
+                        const response = await fetch(`/api/users/${user.id}/`)
+                        const res =await response.json()
+                        const data = res.data          
+                        userForm['nombre'].value=data.nombre;
+                        userForm['email'].value=data.email;
+                        userForm['tel'].value=data.tel;
+                        userForm['direccion'].value=data.direccion;
+                        edditing=true
+                        userId=data.id
+                    })
+                    
+                    userList.append(userItem)
+                    
+                })
+                
+            }
+        </script>
+    </body>
+    <footer>
+
+    </footer>
+</html>

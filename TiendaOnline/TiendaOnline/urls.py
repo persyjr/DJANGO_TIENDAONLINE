@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('pruebas_wom.urls')),#URLS pruebas_wom
     path('', include('tallerApp.urls')),#URLS tallerApp 
     path('', include('blog.urls')),#URLS blog 
+    path('', include('users.api.urls')),#URLS users 
 ]
 
 #   

@@ -31,21 +31,30 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+BASE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    
+]
+LOCAL_APPS=[
     'servicios', #aplicacion de servicios
     'gestionPedidos', #aplicacion de pedidos de clientes
     'pruebas_wom', #aplicacion de pruebas_wom
     'villaRaquel', #aplicacion de pedidos de clientes
     'tallerApp', #aplicacion de tallerApp
     'blog', #aplicacion de blog
-    
+    'users', #aplicacion de usuarios
 ]
+THIRD_APPS=[
+    'rest_framework', #aplicacion de terceros 
+    'simple_history', # simple history
+]
+INSTALLED_APPS= BASE_APPS + LOCAL_APPS+THIRD_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',# se agrega para doblar db historico uses
 ]
 
 ROOT_URLCONF = 'TiendaOnline.urls'
@@ -77,30 +87,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TiendaOnline.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-"""
-#PARA TRABAJAR CON db.sqlite#
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-"""
-#para trabajar con postgreSql
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'articulosclientes',
-        'USER': 'postgres',
-        'PASSWORD': 'sql_2023',
-        'HOST': '127.0.0.1',
-        'DATABASE_PORT': '5432',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
